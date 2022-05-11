@@ -28,13 +28,13 @@ def test_increase_counter_with_ten_on_counterthing():
         count_obj.up()
     assert count_obj.count == 10
 
-def test_increase_counter_with_ten_on_counterthing():
+def test_increase_counter_with_ten_on_counterthing_by_number():
     uid = uuid.uuid4()
     count_obj = counterthing(uid)
     count_obj.up(10)
     assert count_obj.count == 10
 
-def test_increase_counter_with_ten_on_counterthing():
+def test_increase_counter_with_ten_on_counterthing_exception():
     uid = uuid.uuid4()
     count_obj = counterthing(uid)
     with pytest.raises(Exception):
