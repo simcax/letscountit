@@ -14,3 +14,9 @@ def test_get_count_obj():
     uid = uuid.uuid4()
     count_obj = counterthing(uid)
     assert count_obj.uuid == uid
+
+def test_increase_counter_on_counterthing():
+    uid = uuid.uuid4()
+    count_obj = counterthing(uid)
+    count_obj.up()
+    assert count_obj.count == 1

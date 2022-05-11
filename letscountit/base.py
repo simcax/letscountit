@@ -14,3 +14,9 @@ class counterthing:
 
     def __init__(self,uuid) -> None:
         self.uuid = uuid
+        self.count = 0
+
+    def up(self):
+        self.count += 1
+
+    
