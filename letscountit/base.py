@@ -9,3 +9,8 @@ class basecounting:
 
     def version(self):
         return self.__version
+
+class counterthing:
+
+    def __init__(self,uuid) -> None:
+        self.uuid = uuid
