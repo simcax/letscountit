@@ -16,7 +16,10 @@ class counterthing:
         self.uuid = uuid
         self.count = 0
 
-    def up(self):
-        self.count += 1
+    def up(self,count=1):
+        if isinstance(count,int):
+            self.count += count
+        else:
+            raise ValueError("count needs to be an int")
 
     

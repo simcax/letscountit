@@ -20,3 +20,22 @@ def test_increase_counter_on_counterthing():
     count_obj = counterthing(uid)
     count_obj.up()
     assert count_obj.count == 1
+
+def test_increase_counter_with_ten_on_counterthing():
+    uid = uuid.uuid4()
+    count_obj = counterthing(uid)
+    for i in range(10):
+        count_obj.up()
+    assert count_obj.count == 10
+
+def test_increase_counter_with_ten_on_counterthing():
+    uid = uuid.uuid4()
+    count_obj = counterthing(uid)
+    count_obj.up(10)
+    assert count_obj.count == 10
+
+def test_increase_counter_with_ten_on_counterthing():
+    uid = uuid.uuid4()
+    count_obj = counterthing(uid)
+    with pytest.raises(Exception):
+        count_obj.up('a')
