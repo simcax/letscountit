@@ -14,9 +14,9 @@ class Basecounting:
 
 class Counterthing:
 
-    def __init__(self,uuid) -> None:
+    def __init__(self,uuid,startCount=0) -> None:
         self.uuid = uuid
-        self.count = 0
+        self.count = startCount
 
     def up(self,count=1):
         if isinstance(count,int):

@@ -46,3 +46,8 @@ def test_increase_counter_with_ten_on_counterthing_exception():
     count_obj = Counterthing(uid)
     with pytest.raises(Exception):
         count_obj.up('a')
+
+def test_inistialize_decreasing_counter():
+    uid = uuid.uuid4()
+    count_obj = Counterthing(uid, startCount=30)
+    assert count_obj.count == 30
