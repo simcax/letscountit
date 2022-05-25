@@ -1,6 +1,7 @@
 '''Base class for letscountit'''
 
-class basecounting:
+
+class Basecounting:
 
     __version = "0.0.1"
 
@@ -10,7 +11,8 @@ class basecounting:
     def version(self):
         return self.__version
 
-class counterthing:
+
+class Counterthing:
 
     def __init__(self,uuid) -> None:
         self.uuid = uuid
