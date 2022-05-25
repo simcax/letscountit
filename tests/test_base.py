@@ -57,3 +57,9 @@ def test_decrease_counter():
     count_obj = Counterthing(uid, startCount=30)
     count_obj.down()
     assert count_obj.count == 29
+
+def test_decrease_non_integer_value_fails():
+    uid = uuid.uuid4()
+    count_obj = Counterthing(uid,30)
+    with pytest.raises(Exception):
+        count_obj.down('a')
