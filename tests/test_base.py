@@ -51,3 +51,9 @@ def test_inistialize_decreasing_counter():
     uid = uuid.uuid4()
     count_obj = Counterthing(uid, startCount=30)
     assert count_obj.count == 30
+
+def test_decrease_counter():
+    uid = uuid.uuid4()
+    count_obj = Counterthing(uid, startCount=30)
+    count_obj.down()
+    assert count_obj.count == 29

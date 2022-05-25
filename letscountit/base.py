@@ -23,5 +23,11 @@ class Counterthing:
             self.count += count
         else:
             raise ValueError("count needs to be an int")
+    
+    def down(self,count=1):
+        if isinstance(count,int):
+            self.count -= count
+        else:
+            raise ValueError("count needs to be an int")
 
     
