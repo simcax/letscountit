@@ -4,4 +4,4 @@ from letscountit.logo import Logo
 
 def test_logo():
     logo_obj = Logo()
-    print(logo_obj.logo)
+    assert len(logo_obj.logo) == 409
