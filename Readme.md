@@ -3,3 +3,5 @@ A project to count things. Let it be how many days in a row you did that special
 
 ## Fun and easy
 It should be fun! Not a bad conscience :-) And then it has to be easy! Go to the website and click that thing you do or maybe only go there on that dreaded day, where your streak ended? We'll see what we come up with.
+
+## CASH IS KING
