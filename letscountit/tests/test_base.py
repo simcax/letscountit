@@ -14,8 +14,8 @@ def test_class_loads():
 
 def test_get_count_obj():
     uid = uuid.uuid4()
-    counterthing1 = Counterthing(uid)
-    count_obj = counterthing1
+    counter_thing1 = Counterthing(uid)
+    count_obj = counter_thing1
     assert count_obj.uuid == uid
 
 
@@ -49,12 +49,12 @@ def test_increase_counter_with_ten_on_counterthing_exception():
 
 def test_inistialize_decreasing_counter():
     uid = uuid.uuid4()
-    count_obj = Counterthing(uid, startCount=30)
+    count_obj = Counterthing(uid, start_count=30)
     assert count_obj.count == 30
 
 def test_decrease_counter():
     uid = uuid.uuid4()
-    count_obj = Counterthing(uid, startCount=30)
+    count_obj = Counterthing(uid, start_count=30)
     count_obj.down()
     assert count_obj.count == 29
 
@@ -63,3 +63,4 @@ def test_decrease_non_integer_value_fails():
     count_obj = Counterthing(uid,30)
     with pytest.raises(Exception):
         count_obj.down('a')
+
