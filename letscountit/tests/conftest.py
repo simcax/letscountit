@@ -27,10 +27,12 @@ def db_connection(docker_services, docker_ip):
     try:
         dbc = psycopg2.connect(**db_settings)
         dbc.autocommit = True
+        return dbc
     except psycopg2.DatabaseError as error:
         conn = False
         print("Error connecting to database %s - %s",db_settings['database'], error)
-    return dbc
+        return conn
+    
 
 
 @pytest.fixture(autouse=True)
