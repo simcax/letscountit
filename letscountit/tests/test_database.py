@@ -12,7 +12,7 @@ def test_get_db_connection():
 def test_connect_db(_mock_db_connection):
     os.environ['ENV'] = "TEST"
     db_obj = Database()
-    db_obj.db_settings['database'] = 'letscountit_local'
+    #db_obj.db_settings['database'] = 'letscountit_local'
     db_obj.db_settings['user'] = 'root'
     db_obj.db_settings['host'] = 'localhost'
     db_obj.db_settings['port'] = 26257
