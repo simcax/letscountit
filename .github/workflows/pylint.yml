@@ -19,6 +19,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install pylint
         python -m pip install -r requirements.txt
+    - name: Run cockroach db single node cluster
+      run: | 
+        docker run -d --name=roachtest --hostname=roachtest -p 26257:26257 -p 8085:8080 -v "${PWD}/cockroach-data/roach1:/cockroach/cockroach-data" cockroachdb/cockroach:v22.1.0 start-single-node --insecure
     - name: Run tests
       run: |
         python -m pytest letscountit/tests
