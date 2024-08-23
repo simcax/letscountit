@@ -17,24 +17,21 @@ def test_class_loads():
 
 def test_get_count_obj():
     """Test the uid is being assigned in the object"""
-    uid = uuid.uuid4()
-    counter_thing1 = Counterthing(uid)
+    counter_thing1 = Counterthing(name="my test counter")
     count_obj = counter_thing1
-    assert count_obj.uuid == uid
+    assert isinstance(count_obj.uuid, uuid.UUID)
 
 
 def test_increase_counter_on_counterthing():
     """Test counting one up"""
-    uid = uuid.uuid4()
-    count_obj = Counterthing(uid)
+    count_obj = Counterthing(name="my test counter")
     count_obj.up()
     assert count_obj.count == 1
 
 
 def test_increase_counter_with_ten_on_counterthing():
     """Test counting up 10 times"""
-    uid = uuid.uuid4()
-    count_obj = Counterthing(uid)
+    count_obj = Counterthing(name="my test counter")
     for i in range(10):
         count_obj.up()
     assert count_obj.count == 10
@@ -42,36 +39,38 @@ def test_increase_counter_with_ten_on_counterthing():
 
 def test_increase_counter_with_ten_on_counterthing_by_number():
     """Test a counter increasing by 10"""
-    uid = uuid.uuid4()
-    count_obj = Counterthing(uid)
+    count_obj = Counterthing(name="my test counter")
     count_obj.up(10)
     assert count_obj.count == 10
 
 
 def test_increase_counter_with_ten_on_counterthing_exception():
     """Test the counter will fail if given a string"""
-    uid = uuid.uuid4()
-    count_obj = Counterthing(uid)
+    count_obj = Counterthing(name="my test counter")
     with pytest.raises(Exception):
         count_obj.up('a')
 
 def test_inistialize_decreasing_counter():
     """Test is is possible to set a start count"""
-    uid = uuid.uuid4()
-    count_obj = Counterthing(uid, start_count=30)
+    name = "some counter"
+    count_obj = Counterthing(name=name, start_count=30)
     assert count_obj.count == 30
+    assert count_obj.name == name
 
 def test_decrease_counter():
     """Test initializing a counter and then decrease the counter"""
     uid = uuid.uuid4()
-    count_obj = Counterthing(uid, start_count=30)
+    name = "some counter"
+    count_obj = Counterthing(name=name, uuid=uid, start_count=30)
     count_obj.down()
     assert count_obj.count == 29
+    assert name == count_obj.name
 
 def test_decrease_non_integer_value_fails():
     """Test decreasing a counter with a string will fail"""
     uid = uuid.uuid4()
-    count_obj = Counterthing(uid,30)
+    name = "some counter"
+    count_obj = Counterthing(name=name, uuid=uid,start_count=30)
     with pytest.raises(Exception):
         count_obj.down('a')
 
