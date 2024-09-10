@@ -1,11 +1,29 @@
-[build-system]
-requires = ["setuptools>=42", "wheel"]
-build-backend = "setuptools.build_meta"
+[tool.poetry]
+name = "letscountit"
+version = "0.1.0"
+description = "Count all the things"
+authors = ["Carsten Skov <carsten@simcax.dk>"]
+license = "GNU GPLV3"
+readme = "Readme.md"
 
-[tool.pytest.ini_options]
-minversion = "6.0"
-addopts = "-ra -q"
-testpaths = [
-    "tests",
-    "integration",
-]
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.88.0"
+psycopg2-binary = "^2.9.5"
+httpx = "^0.23.1"
+sqlalchemy = "^2.0.23"
+edgedb = "^2.0.1"
+uvicorn = "^0.30.6"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.0"
+black = {version = "^23.1a1", allow-prereleases = true}
+faker = "^20.1.0"
+pytest-cov = "^4.1.0"
+testcontainers = "^3.7.1"
+testcontainers-postgres = "^0.0.1rc1"
+fastapi-cli-slim = "^0.0.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
