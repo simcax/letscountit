@@ -3,15 +3,25 @@
 import edgedb
 from letscountit.base import Counterthing
 from uuid import UUID
+from os import environ
 
 class Database:
     """A class to help interface with the EdgeDB database."""
     def __init__(self):
-        self.client = edgedb.create_client()
+        if ( environ.get("EDGEDB_DSN") ):
+            environ['EDGEDB_CLIENT_SECURITY'] = 'insecure_dev_mode'
+            self.client = edgedb.create_client(dsn=environ.get("EDGEDB_DSN"))
+            
+        else:
+            self.client = edgedb.create_client()
 
     def query(self, query: str, **kwargs):
         """Query the EdgeDB database."""
         return self.client.query_single(query, **kwargs)
+    
+    def query_multiple(self, query: str, **kwargs):
+        """Query the EdgeDB database and return multiple results."""
+        return self.client.query(query, **kwargs)
     
     def get_counter(self, uuid: str) -> list:
         """Get a counter from the EdgeDB database."""
@@ -29,22 +39,23 @@ class Database:
             raise TypeError(f"Error getting counter: {e}")
         return result
 
-    def create_counter(self, name: str) -> list:
+    def create_counter(self, name: str, count: int = 0) -> list:
         """Create a named counter in the EdgeDB database. This will automatically assign a UUID."""
-        counter = Counterthing(name=name)
-        result = self.insert_counter(counter.uuid, counter.name)
+        counter = Counterthing(name=name, start_count=count)
+        result = self.insert_counter(counter.uuid, counter.name, counter.count)
         result = self.get_counter_by_id(result.id)
         return result
 
-    def insert_counter(self, uuid: UUID, name: str) -> list:
+    def insert_counter(self, uuid: UUID, name: str, count: int) -> list:
         """Insert a counter into the EdgeDB database."""
         try:
             result = self.query("""
                 INSERT counter{
                         uuid := <uuid>$uuid, 
-                        name := <str>$name
+                        name := <str>$name,
+                        count := <int64>$count
                         } 
-                """, uuid=uuid, name=name)
+                """, uuid=uuid, name=name, count=count)
         except edgedb.errors.InvalidArgumentError as e:
             raise TypeError(f"Error inserting counter: {e}")
         return result
