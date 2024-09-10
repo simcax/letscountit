@@ -5,9 +5,9 @@ name: Letscountit api
 
 on:
   push:
-    branches: [ $default-branch ]
+    branches: [ all ]
   pull_request:
-    branches: [ $default-branch ]
+    branches: [ all ]
 
 jobs:
   build:
