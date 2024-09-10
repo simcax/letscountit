@@ -55,6 +55,7 @@ def db_conn():
         print(f"Error connecting to database: {error}")
         yield conn
 
+
 @pytest.fixture()
 def uuid_value():
     """
@@ -62,8 +63,10 @@ def uuid_value():
     """
     return str(uuid4())
 
+
 @pytest.fixture()
 def hex_str_to_uuid_str():
     def hex_str_to_uuid_str(hex_uuid):
         return str(UUID(hex_uuid))
+
     return hex_str_to_uuid_str

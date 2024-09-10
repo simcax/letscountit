@@ -1,4 +1,5 @@
 """Class implements database connectivity"""
+
 import logging
 from os import environ
 

@@ -9,6 +9,7 @@ from letscountit.db.edgedb import Database
 import json
 from uuid import UUID
 
+
 def test_get_counter_by_uuid(uuid_value):
     app = main.app
     assert isinstance(app, object)
@@ -20,7 +21,11 @@ def test_get_counter_by_uuid(uuid_value):
     test_url = f"/counter/{uuid_value}"
     response = client.get(test_url)
     assert response.status_code == 200
-    assert json.loads(response.text) == f'{{"uuid": "{uuid_value}", "name": "test", "count": 0}}'
+    assert (
+        json.loads(response.text)
+        == f'{{"uuid": "{uuid_value}", "name": "test", "count": 0}}'
+    )
+
 
 def test_add_new_counter_api(uuid_value, hex_str_to_uuid_str):
     app = main.app
@@ -33,13 +38,18 @@ def test_add_new_counter_api(uuid_value, hex_str_to_uuid_str):
     assert isinstance(response.text, str)
     # Test the counter was added
     db = Database()
-    row =  db.query("SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=uuid_value)
+    row = db.query(
+        "SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=uuid_value
+    )
     assert hex_str_to_uuid_str(row.uuid.hex) == uuid_value
     assert row.name == name
     # Now clean up
     db.query("DELETE counter FILTER .uuid = <uuid>$uuid", uuid=uuid_value)
-    row =  db.query("SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=uuid_value)
+    row = db.query(
+        "SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=uuid_value
+    )
     assert row is None
+
 
 def test_create_counter_api():
     """Test creating a counter via the API"""
@@ -57,8 +67,11 @@ def test_create_counter_api():
     # Now clean up
     db = Database()
     db.query("DELETE counter FILTER .uuid = <uuid>$uuid", uuid=result["uuid"])
-    row =  db.query("SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=result["uuid"])
+    row = db.query(
+        "SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=result["uuid"]
+    )
     assert row is None
+
 
 def test_increase_counter_api():
     """Tests increasing a counter using the api"""
@@ -77,8 +90,9 @@ def test_increase_counter_api():
     # Now clean up
     db = Database()
     db.query("DELETE counter FILTER .uuid = <uuid>$uuid", uuid=uuid)
-    row =  db.query("SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=uuid)
+    row = db.query("SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=uuid)
     assert row is None
+
 
 def test_decrease_counter_api():
     """Tests decreasing a counter using the api"""
@@ -97,8 +111,9 @@ def test_decrease_counter_api():
     # Now clean up
     db = Database()
     db.query("DELETE counter FILTER .uuid = <uuid>$uuid", uuid=uuid)
-    row =  db.query("SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=uuid)
+    row = db.query("SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=uuid)
     assert row is None
+
 
 def test_list_all_counters_api():
     """Tests the API for listing all counters"""
@@ -120,6 +135,7 @@ def test_list_all_counters_api():
         assert isinstance(counter["count"], int)
         assert counter["count"] >= 0
 
+
 def test_create_counter_with_initial_value():
     """Tests creating a counter with an initial value"""
     app = main.app
@@ -136,8 +152,9 @@ def test_create_counter_with_initial_value():
     # Now clean up
     db = Database()
     db.query("DELETE counter FILTER .uuid = <uuid>$uuid", uuid=uuid)
-    row =  db.query("SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=uuid)
+    row = db.query("SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=uuid)
     assert row is None
+
 
 def test_update_counter_with_value():
     """Tests updating a counter with a value"""
@@ -158,5 +175,5 @@ def test_update_counter_with_value():
     # Now clean up
     db = Database()
     db.query("DELETE counter FILTER .uuid = <uuid>$uuid", uuid=uuid)
-    row =  db.query("SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=uuid)
+    row = db.query("SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=uuid)
     assert row is None
