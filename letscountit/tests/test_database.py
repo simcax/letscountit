@@ -134,7 +134,6 @@ def test_edgedb_create_counter():
     """Test creating a counter in the edgedb database"""
     db_obj = EdgeDatabase()
     counter = db_obj.create_counter("test")
-    counter_id = counter.id.hex
     assert counter.name == "test"
     assert counter.count == 0
     assert counter.uuid is not None

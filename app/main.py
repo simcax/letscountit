@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
-from letscountit.base import Counterthing
 from letscountit.db.edgedb import Database
 from uuid import UUID
 
