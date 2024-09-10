@@ -67,7 +67,7 @@ def test_edge_db_query(hex_str_to_uuid_str):
 def test_edgedb_insert_counter(uuid_value, hex_str_to_uuid_str):
     """Test inserting a counter into the edgedb database"""
     db_obj = EdgeDatabase()
-    db_obj.insert_counter(uuid_value, "test")
+    db_obj.insert_counter(uuid_value, "test",0)
     row = db_obj.query(
         "SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=uuid_value
     )
@@ -98,7 +98,7 @@ def test_edgedb_insert_counter_no_name():
 def test_edgedb_update_counter(uuid_value):
     """Test updating a counter in the edgedb database"""
     db_obj = EdgeDatabase()
-    db_obj.insert_counter(uuid_value, "test")
+    db_obj.insert_counter(uuid_value, "test",0)
     row = db_obj.query(
         "SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=uuid_value
     )
@@ -106,18 +106,18 @@ def test_edgedb_update_counter(uuid_value):
     row = db_obj.query(
         "SELECT counter{uuid, count} FILTER .uuid = <uuid>$uuid", uuid=uuid_value
     )
-    assert row[0].count == 1
+    assert row.count == 1
     db_obj.query("DELETE counter FILTER .uuid = <uuid>$uuid", uuid=uuid_value)
     row = db_obj.query(
         "SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=uuid_value
     )
-    assert len(row) == 0
+    assert row is None
 
 
 def test_edgedb_get_counter_by_id(uuid_value, hex_str_to_uuid_str):
     """Test getting a counter by id from the edgedb database"""
     db_obj = EdgeDatabase()
-    counter = db_obj.insert_counter(uuid_value, "test")
+    counter = db_obj.insert_counter(uuid_value, "test",0)
     counter_id = counter.id.hex
     result = db_obj.get_counter_by_id(counter_id)
     assert hex_str_to_uuid_str(result.uuid.hex) == uuid_value
