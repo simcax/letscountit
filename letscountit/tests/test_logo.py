@@ -1,4 +1,3 @@
-import pytest
 from letscountit.logo import Logo
 
 

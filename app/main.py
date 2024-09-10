@@ -3,7 +3,6 @@ from fastapi.responses import JSONResponse
 from letscountit.base import Counterthing
 from letscountit.db.edgedb import Database
 from uuid import UUID
-import json
 
 app = FastAPI()
 
@@ -31,7 +30,6 @@ def add_new_counter(uuid: UUID, name: str):
 @app.post("/counter/create/{name}/{count}")
 def create_counter(name: str, count: int = 0):
     db = Database()
-    counter = Counterthing(name=name)
     result = db.create_counter(name, count)
     uuid = str(UUID((result.uuid.hex)))
     result_dict = {
@@ -95,7 +93,7 @@ def list_counters():
 @app.post("/counter/update/{uuid}/{count}")
 def update_counter(uuid: str, count: int):
     db = Database()
-    result = db.update_counter(uuid, count)
+    db.update_counter(uuid, count)
     current_counter = db.get_counter(uuid)
     result_dict = {
         "uuid": str(UUID(current_counter.uuid.hex)),

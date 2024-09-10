@@ -9,7 +9,7 @@ from letscountit.base import Counterthing
 
 def test_class_loads():
     """Test it is possible to assign the class object"""
-    base_obj = letscountit.base.Basecounting()
+    letscountit.base.Basecounting()
 
     all_obj = [
         k for k, v in globals().items() if type(v) is MT and not k.startswith("__")

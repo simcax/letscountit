@@ -1,5 +1,3 @@
-import os
-
 import psycopg2
 import pytest
 from faker import Faker
