@@ -22,7 +22,8 @@ jobs:
       with:
         python-version: 3.12.6
     - name:
-      run: edgedb migration create
+      run: |
+        edgedb migrate
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip poetry
