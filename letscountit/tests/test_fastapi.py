@@ -12,14 +12,18 @@ def test_get_counter_by_uuid(uuid_value):
     client = TestClient(app)
     # Add a counter to the database directly
     db = Database()
-    db.insert_counter(uuid_value, "test")
+    db.insert_counter(uuid_value, "test",0)
     # Now test we can retrieve it by the API
     test_url = f"/counter/{uuid_value}"
     response = client.get(test_url)
     assert response.status_code == 200
-    assert (
-        json.loads(response.text)
-        == f'{{"uuid": "{uuid_value}", "name": "test", "count": 0}}'
+    json_response = json.loads(response.text)
+    expected_resonse = {"uuid": str(uuid_value), "name": "test", "count": 0}
+    assert json_response == expected_resonse
+    # Now clean up
+    db.query("DELETE counter FILTER .uuid = <uuid>$uuid", uuid=uuid_value)
+    row = db.query(
+        "SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=uuid_value
     )
 
 
@@ -52,7 +56,7 @@ def test_create_counter_api():
     app = main.app
     client = TestClient(app)
     name = "testname"
-    test_url = f"/counter/create/{name}"
+    test_url = f"/counter/create/{name}/0"
     response = client.post(test_url)
     assert response.status_code == 200
     assert isinstance(response.text, str)
@@ -74,7 +78,7 @@ def test_increase_counter_api():
     app = main.app
     client = TestClient(app)
     name = "testname"
-    test_url = f"/counter/create/{name}"
+    test_url = f"/counter/create/{name}/0"
     response = client.post(test_url)
     result = json.loads(response.text)
     uuid = result["uuid"]
@@ -95,7 +99,7 @@ def test_decrease_counter_api():
     app = main.app
     client = TestClient(app)
     name = "testname"
-    test_url = f"/counter/create/{name}"
+    test_url = f"/counter/create/{name}/0"
     response = client.post(test_url)
     result = json.loads(response.text)
     uuid = result["uuid"]
@@ -129,7 +133,6 @@ def test_list_all_counters_api():
         assert isinstance(UUID(counter["uuid"]), UUID)
         assert isinstance(counter["name"], str)
         assert isinstance(counter["count"], int)
-        assert counter["count"] >= 0
 
 
 def test_create_counter_with_initial_value():

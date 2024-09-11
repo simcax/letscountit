@@ -21,7 +21,7 @@ def get_counter(uuid: str):
 @app.post("/counter/new/{uuid}/{name}")
 def add_new_counter(uuid: UUID, name: str):
     db = Database()
-    result = db.insert_counter(uuid, name)
+    result = db.insert_counter(uuid, name,0)
     result_dict = {"uuid": str(UUID(result.id.hex))}
     return JSONResponse(content=result_dict)
 
