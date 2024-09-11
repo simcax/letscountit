@@ -9,8 +9,8 @@ RUN poetry config virtualenvs.in-project true
 COPY pyproject.toml poetry.lock ./
 RUN poetry install
 
-FROM python:3.11-slim
+FROM python:3.12-slim
 WORKDIR /app
 COPY --from=builder /app/.venv .venv/
 COPY . .
-CMD ["/app/.venv/bin/uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["/app/.venv/bin/uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

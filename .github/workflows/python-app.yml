@@ -11,9 +11,9 @@ on:
 
 jobs:
   lint-test:
-
     runs-on: ubuntu-latest
-
+    outputs:
+      poetry-version: ${{ steps.get-version.outputs.poetry-version }}
     steps:
     - uses: actions/checkout@v4
     - uses: edgedb/setup-edgedb@v1
@@ -37,6 +37,12 @@ jobs:
     - name: Test with pytest
       run: |
         poetry run pytest
+    - name: Get Poetry version
+      id: get-version
+      run: |
+        poetry_version=$(poetry --version)
+        echo "poetry-version=${poetry_version}" >> $GITHUB_ENV
+
 
   build:
     runs-on: ubuntu-latest
@@ -54,4 +60,4 @@ jobs:
       uses: docker/build-push-action@v6
       with:
         push: true
-        tags: simcax/letscountit-api:0.${{ github.run_number }}.0
+        tags: simcax/letscountit-api:${{ needs.lint-test.outputs.poetry-version }}

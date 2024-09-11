@@ -100,3 +100,8 @@ def update_counter(uuid: str, count: int):
         "count": current_counter.count,
     }
     return JSONResponse(content=result_dict)
+
+
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
