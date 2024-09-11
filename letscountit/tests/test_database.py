@@ -1,34 +1,9 @@
-import os
 from uuid import UUID, uuid4
 
 import pytest
 from edgedb import Client
 
-from letscountit.db.db import Database
 from letscountit.db.edgedb import Database as EdgeDatabase
-
-
-def test_get_db_connection(db_conn):
-    os.environ["ENV"] = "TEST"
-    print(db_conn)
-    assert isinstance(db_conn, object)
-
-
-def test_connect_db(db_conn):
-    os.environ["ENV"] = "TEST"
-    db_obj = db_conn
-    db_name = "letscountit"
-    sql = f"SELECT 'CREATE DATABASE {db_name}' WHERE NOT EXISTS \
-        (SELECT FROM pg_database WHERE datname = '{db_name}')"
-    with db_obj.conn.cursor() as cur:
-        cur.execute(sql)
-        db_obj.conn.commit()
-
-
-def test_get_db_connection_edge_object():
-    """Test getting an edgedb database connection"""
-    db_obj = Database()
-    assert isinstance(db_obj, object)
 
 
 def test_get_edge_db_client():
