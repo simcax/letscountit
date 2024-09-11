@@ -1,9 +1,11 @@
 """A module to help interface with the EdgeDB database."""
 
-import edgedb
-from letscountit.base import Counterthing
-from uuid import UUID
 from os import environ
+from uuid import UUID
+
+import edgedb
+
+from letscountit.base import Counterthing
 
 
 class Database:
@@ -39,9 +41,7 @@ class Database:
     def get_counter_by_id(self, id: str) -> list:
         """Get a counter by id from the EdgeDB database."""
         try:
-            result = self.query(
-                "SELECT counter{uuid, name, count} FILTER .id = <uuid>$id", id=id
-            )
+            result = self.query("SELECT counter{uuid, name, count} FILTER .id = <uuid>$id", id=id)
         except edgedb.errors.InvalidArgumentError as e:
             raise TypeError(f"Error getting counter: {e}")
         return result
@@ -59,10 +59,10 @@ class Database:
             result = self.query(
                 """
                 INSERT counter{
-                        uuid := <uuid>$uuid, 
+                        uuid := <uuid>$uuid,
                         name := <str>$name,
                         count := <int64>$count
-                        } 
+                        }
                 """,
                 uuid=uuid,
                 name=name,

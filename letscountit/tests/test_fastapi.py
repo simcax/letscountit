@@ -1,9 +1,10 @@
+import json
+from uuid import UUID
+
 from fastapi.testclient import TestClient
 
 from app import main
 from letscountit.db.edgedb import Database
-import json
-from uuid import UUID
 
 
 def test_get_counter_by_uuid(uuid_value):
@@ -12,7 +13,7 @@ def test_get_counter_by_uuid(uuid_value):
     client = TestClient(app)
     # Add a counter to the database directly
     db = Database()
-    db.insert_counter(uuid_value, "test",0)
+    db.insert_counter(uuid_value, "test", 0)
     # Now test we can retrieve it by the API
     test_url = f"/counter/{uuid_value}"
     response = client.get(test_url)
@@ -22,9 +23,8 @@ def test_get_counter_by_uuid(uuid_value):
     assert json_response == expected_resonse
     # Now clean up
     db.query("DELETE counter FILTER .uuid = <uuid>$uuid", uuid=uuid_value)
-    row = db.query(
-        "SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=uuid_value
-    )
+    row = db.query("SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=uuid_value)
+    assert row is None
 
 
 def test_add_new_counter_api(uuid_value, hex_str_to_uuid_str):
@@ -38,16 +38,12 @@ def test_add_new_counter_api(uuid_value, hex_str_to_uuid_str):
     assert isinstance(response.text, str)
     # Test the counter was added
     db = Database()
-    row = db.query(
-        "SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=uuid_value
-    )
+    row = db.query("SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=uuid_value)
     assert hex_str_to_uuid_str(row.uuid.hex) == uuid_value
     assert row.name == name
     # Now clean up
     db.query("DELETE counter FILTER .uuid = <uuid>$uuid", uuid=uuid_value)
-    row = db.query(
-        "SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=uuid_value
-    )
+    row = db.query("SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=uuid_value)
     assert row is None
 
 
@@ -67,9 +63,7 @@ def test_create_counter_api():
     # Now clean up
     db = Database()
     db.query("DELETE counter FILTER .uuid = <uuid>$uuid", uuid=result["uuid"])
-    row = db.query(
-        "SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=result["uuid"]
-    )
+    row = db.query("SELECT counter{uuid, name} FILTER .uuid = <uuid>$uuid", uuid=result["uuid"])
     assert row is None
 
 

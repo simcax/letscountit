@@ -1,11 +1,11 @@
+from uuid import UUID, uuid4
+
 import psycopg2
 import pytest
 from faker import Faker
 from testcontainers.postgres import PostgresContainer
 
 from letscountit.db.db import Database
-from uuid import uuid4, UUID
-
 
 fake = Faker()
 

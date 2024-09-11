@@ -23,22 +23,14 @@ class Counterthing:
         self.name = name
 
     def __str__(self):
-        return (
-            f"Counterthing: {self.uuid} with count: {self.count} and name: {self.name}"
-        )
+        return f"Counterthing: {self.uuid} with count: {self.count} and name: {self.name}"
 
     def __repr__(self):
-        return (
-            f"Counterthing: {self.uuid} with count: {self.count} and name: {self.name}"
-        )
+        return f"Counterthing: {self.uuid} with count: {self.count} and name: {self.name}"
 
     def __eq__(self, other):
         if isinstance(other, Counterthing):
-            return (
-                self.uuid == other.uuid
-                and self.count == other.count
-                and self.name == other.name
-            )
+            return self.uuid == other.uuid and self.count == other.count and self.name == other.name
         return False
 
     def __ne__(self, other):

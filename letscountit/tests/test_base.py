@@ -2,7 +2,9 @@
 
 import uuid
 from types import ModuleType as MT
+
 import pytest
+
 import letscountit.base
 from letscountit.base import Counterthing
 
@@ -11,9 +13,7 @@ def test_class_loads():
     """Test it is possible to assign the class object"""
     letscountit.base.Basecounting()
 
-    all_obj = [
-        k for k, v in globals().items() if type(v) is MT and not k.startswith("__")
-    ]
+    all_obj = [k for k, v in globals().items() if type(v) is MT and not k.startswith("__")]
     ", ".join(all_obj)
     assert "letscountit" in all_obj
 

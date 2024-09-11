@@ -1,7 +1,9 @@
+from uuid import UUID
+
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
+
 from letscountit.db.edgedb import Database
-from uuid import UUID
 
 app = FastAPI()
 
@@ -21,7 +23,7 @@ def get_counter(uuid: str):
 @app.post("/counter/new/{uuid}/{name}")
 def add_new_counter(uuid: UUID, name: str):
     db = Database()
-    result = db.insert_counter(uuid, name,0)
+    result = db.insert_counter(uuid, name, 0)
     result_dict = {"uuid": str(UUID(result.id.hex))}
     return JSONResponse(content=result_dict)
 
@@ -83,9 +85,7 @@ def list_counters():
     result = db.query_multiple("SELECT counter{uuid, name, count}")
     result_dict = []
     for r in result:
-        result_dict.append(
-            {"uuid": str(UUID(r.uuid.hex)), "name": r.name, "count": r.count}
-        )
+        result_dict.append({"uuid": str(UUID(r.uuid.hex)), "name": r.name, "count": r.count})
     return JSONResponse(content=result_dict)
 
 
