@@ -61,4 +61,4 @@ jobs:
       uses: docker/build-push-action@v6
       with:
         push: true
-        tags: simcax/letscountit-api:$POETRY_VERSION
+        tags: simcax/letscountit-api:${{ env.POETRY_VERSION}}
