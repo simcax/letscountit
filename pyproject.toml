@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "letscountit"
-version = "0.2.1a43"
+version = "0.2.1a44"
 description = "Count all the things"
 authors = ["Carsten Skov <carsten@simcax.dk>"]
 license = "GNU GPLV3"
