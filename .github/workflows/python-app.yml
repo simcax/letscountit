@@ -60,4 +60,4 @@ jobs:
       uses: docker/build-push-action@v6
       with:
         push: true
-        tags: simcax/letscountit-api:${{ needs.lint-test.outputs.poetry-version }}
+        tags: simcax/letscountit-api:"$poetry-version"
