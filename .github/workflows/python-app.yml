@@ -37,6 +37,32 @@ jobs:
     - name: Test with pytest
       run: |
         poetry run pytest
+    - name: Bump poetry version
+      run: |
+        if [[ $(git log --format=%B -n 1 ${{ github.sha }}) == *patch* ]]; then
+          poetry version patch
+        elif [[ $(git log --format=%B -n 1 ${{ github.sha }}) == *minor* ]]; then
+          poetry version minor
+        elif [[ $(git log --format=%B -n 1 ${{ github.sha }}) == *major* ]]; then
+          poetry version major
+        else
+          poetry version prerelease
+        fi
+    - name: Check pyproject.toml
+      run: |
+        if [[ -f pyproject.toml ]]; then
+          echo "pyproject.toml exists"
+        else
+          echo "pyproject.toml does not exist"
+          exit 1
+        fi
+    - name: Commit pyproject.toml
+      run: |
+        git add pyproject.toml
+        git commit -m "Update pyproject.toml"
+    - name: Push changes
+      run: |
+        git push
     - name: Get Poetry version
       id: get-version
       run: |
