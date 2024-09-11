@@ -40,7 +40,7 @@ jobs:
     - name: Get Poetry version
       id: get-version
       run: |
-        poetry_version=$(poetry --version)
+        poetry_version=$(poetry version -s)
         echo "poetry-version=${poetry_version}" >> $GITHUB_OUTPUT
 
 
