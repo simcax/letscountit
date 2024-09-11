@@ -16,6 +16,9 @@ jobs:
       poetry-version: ${{ steps.get-version.outputs.poetry-version }}
     steps:
     - uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+        fetch-depth: 0
     - uses: edgedb/setup-edgedb@v1
     - name: Set up Python 3.12.6
       uses: actions/setup-python@v5
@@ -59,10 +62,10 @@ jobs:
     - name: Commit pyproject.toml
       run: |
         git add pyproject.toml
-        git commit -m "Update pyproject.toml"
-    - name: Push changes
-      run: |
-        git push
+    - name: Commit and push
+      uses: actions-js/push@master
+      with:
+        github_token: ${{ secrets.GH_TOKEN }}
     - name: Get Poetry version
       id: get-version
       run: |
