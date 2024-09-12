@@ -6,8 +6,6 @@ name: Letscountit api
 on:
   push:
     branches: [ '**' ]
-    paths-ignore:
-      - 'pyproject.toml'
   pull_request:
     branches: [ '**' ]
 
@@ -68,6 +66,8 @@ jobs:
       uses: actions-js/push@master
       with:
         github_token: ${{ secrets.GH_TOKEN }}
+        message: "[skip actions] Bump poetry version"
+        branch: ${{ github.ref }}
     - name: Get Poetry version
       id: get-version
       run: |
