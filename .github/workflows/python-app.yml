@@ -6,6 +6,8 @@ name: Letscountit api
 on:
   push:
     branches: [ '**' ]
+    paths-ignore:
+      - 'pyproject.toml'
   pull_request:
     branches: [ '**' ]
 
